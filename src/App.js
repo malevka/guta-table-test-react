@@ -1,24 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import TableWrapper from "./components/table-wrapper/table-wrapper.component";
 
 function App() {
+  const postsUrl = "https://jsonplaceholder.typicode.com/posts";
+  const commentsUrl = "https://jsonplaceholder.typicode.com/comments";
+  const usersUrl = "https://jsonplaceholder.typicode.com/users";
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TableWrapper url={postsUrl} filter="userId" />
+      {/*  <TableWrapper url={commentsUrl} filter="postId"/> */}
+
+      <TableWrapper url={usersUrl} filter="username" />
     </div>
   );
 }
