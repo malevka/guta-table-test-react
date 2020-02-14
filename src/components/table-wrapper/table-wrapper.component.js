@@ -4,7 +4,8 @@ class TableWrapper extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      limit: 1,
+      limit: 10,
+      limitIncrement: 10,
       data: [],
       filtered: {
         data: [],
@@ -24,7 +25,7 @@ class TableWrapper extends React.Component {
   }
 
   getData(limit) {
-    return fetch(`${this.props.url}?_limit=${limit}`)
+    return fetch(`${this.props.url}${limit}`)
       .then(response => response.json())
       .then(json => {
         this.setState({ data: json }, this.sortData);
@@ -32,7 +33,7 @@ class TableWrapper extends React.Component {
   }
 
   handleButtonClick() {
-    const limit = this.state.limit + 1;
+    const limit = this.state.limit + this.state.limitIncrement;
     this.getData(limit);
     this.setState({ limit: limit });
   }
@@ -79,40 +80,43 @@ class TableWrapper extends React.Component {
   }
 
   render() {
-    const sortedTable = !!this.state.sorted.data.length && (
+    const sortedTable = 
       <Table
-        name={"ss"}
         data={this.state.sorted.data}
         handleColClick={this.sortData.bind(this)}
       />
-    );
-    const filteredTable = !!this.state.filtered.data.length && (
+    ;
+    const filteredTable = 
       <Table
-        name={"ff"}
         data={this.state.filtered.data}
         handleColClick={this.sortData.bind(this)}
       />
-    );
-    const commonTable = !!this.state.data.length && (
+    ;
+    const originalTable = 
       <Table
-        name={"cc"}
         data={this.state.data}
         handleColClick={this.sortData.bind(this)}
       />
-    );
+    ;
     return (
       <div className="TableWrapper">
-        <label>Filter by {this.state.filtered.field}: </label>
-        <input
-          type="text"
-          onChange={this.filterData.bind(this)}
-          value={this.state.filtered.value}
-        />
-        <button onClick={this.handleButtonClick.bind(this)}>More</button>
-
+        <div className="panel">
+          <label>Search by {this.state.filtered.field}: </label>
+          <input
+            type="text"
+            onChange={this.filterData.bind(this)}
+            value={this.state.filtered.value}
+          />
+          <button onClick={this.handleButtonClick.bind(this)}>More</button>
+        </div>
+        <div className="tableList">
+        
         {filteredTable}
+        {/* 
         {sortedTable}
-        {commonTable}
+        
+        {originalTable} */}
+        </div>
       </div>
     );
   }

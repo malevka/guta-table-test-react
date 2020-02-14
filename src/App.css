@@ -3,19 +3,27 @@
   padding: 0;
 }
 
-.App {
-  text-align: center;
-}
 table {
-  margin: 20px 100px;
+  margin: 5px 0;
   border: 1px solid black;
   border-collapse: collapse;
-  width: 1000px;
 }
 td {
   padding: 0 5px;
   border: 1px solid black;
 }
+thead {
+  font-weight: bold;
+  text-align: center;
+}
 .noData {
   margin: 200px;
+}
+
+.TableWrapper {
+  text-align: justify;
+  margin: 15px 50px;
+}
+button {
+  margin-left: 50px;
 }
