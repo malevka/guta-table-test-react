@@ -1,5 +1,12 @@
 import React from "react";
 
+/**
+ * Component renders receiving data as a table
+ *
+ * @param {array} data Receiving data
+ * @param {function} handleClick Callback for sort data
+ */
+
 function Table(props) {
   const handleClick = e => {
     props.handleColClick(e.target.innerHTML);
@@ -32,7 +39,6 @@ function Table(props) {
       </table>
     );
   }
-  console.log(props.data);
   return <div className="noData">NO DATA</div>;
 }
 

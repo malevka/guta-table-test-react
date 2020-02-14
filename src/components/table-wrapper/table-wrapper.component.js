@@ -1,5 +1,14 @@
 import React from "react";
 import Table from "../table/table.component";
+import getData from "../../lib/getData";
+
+/**
+ * TableWrapper component which loads, sorts and filters data
+ *
+ *
+ * @component
+ */
+
 class TableWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -21,20 +30,29 @@ class TableWrapper extends React.Component {
   }
 
   componentDidMount() {
-    this.getData(this.state.limit);
+    getData(`${this.props.url}${this.state.limit}`)
+      .then(json => {
+        this.setState({ data: json });
+      })
+      .then(() => this.sortData());
+    /* this.getData(this.state.limit); */
   }
 
-  getData(limit) {
+  /* getData(limit) {
     return fetch(`${this.props.url}${limit}`)
       .then(response => response.json())
       .then(json => {
         this.setState({ data: json }, this.sortData);
       });
-  }
+  } */
 
   handleButtonClick() {
     const limit = this.state.limit + this.state.limitIncrement;
-    this.getData(limit);
+    getData(`${this.props.url}${limit}`)
+      .then(json => {
+        this.setState({ data: json });
+      })
+      .then(() => this.sortData());
     this.setState({ limit: limit });
   }
 
@@ -52,7 +70,6 @@ class TableWrapper extends React.Component {
     const filter = { ...this.state.filtered, value: value, data: filtered };
     this.setState({ filtered: filter });
   }
-
   sortData(field) {
     const data = this.state.data.slice();
     const sortField = field ? field : this.state.sorted.field;
@@ -80,24 +97,21 @@ class TableWrapper extends React.Component {
   }
 
   render() {
-    const sortedTable = 
+    const sortedTable = (
       <Table
         data={this.state.sorted.data}
         handleColClick={this.sortData.bind(this)}
       />
-    ;
-    const filteredTable = 
+    );
+    const filteredTable = (
       <Table
         data={this.state.filtered.data}
         handleColClick={this.sortData.bind(this)}
       />
-    ;
-    const originalTable = 
-      <Table
-        data={this.state.data}
-        handleColClick={this.sortData.bind(this)}
-      />
-    ;
+    );
+    const originalTable = (
+      <Table data={this.state.data} handleColClick={this.sortData.bind(this)} />
+    );
     return (
       <div className="TableWrapper">
         <div className="panel">
@@ -110,9 +124,8 @@ class TableWrapper extends React.Component {
           <button onClick={this.handleButtonClick.bind(this)}>More</button>
         </div>
         <div className="tableList">
-        
-        {filteredTable}
-        {/* 
+          {filteredTable}
+          {/* 
         {sortedTable}
         
         {originalTable} */}
